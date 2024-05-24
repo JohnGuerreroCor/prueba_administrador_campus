@@ -1,0 +1,20 @@
+/**
+ * 
+ */
+package co.edu.usco.lcms.servicios;
+
+import java.util.List;
+
+import co.edu.usco.lcms.model.Formalidad;
+
+/**
+ * @author jankarlos
+ *
+ */
+public interface FormalidadServicio {
+	/**
+	 * Listar las Formalidades
+	 * @return Lista de las Formalidades
+	 */
+	public List<Formalidad> listarFormalidad();
+}

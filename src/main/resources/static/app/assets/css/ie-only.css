@@ -1,0 +1,26 @@
+
+.ie-only { 
+	display: block;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    top: 20%;
+    padding: 10px;
+    font-size: 22px;
+}
+
+#master-content{
+	display: none; 
+}
+
+md-tooltip{
+	display: none;
+}
+
+.btn-to-gc {
+	padding:10px;
+}
+
+.btn-to-gc:hover {
+	background-color:#b2262a!important;
+}

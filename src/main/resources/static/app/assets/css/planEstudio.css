@@ -1,0 +1,215 @@
+.fondoTabla {
+	background-color: white;
+}
+
+button.md-primary.md-button.md-default-theme.md-ink-ripple._md-autofocus
+	{
+	background: brown;
+}
+
+md-button.md-default-theme.md-primary, .md-button.md-primary {
+	color: rgb(255, 255, 255);
+	background: brown !important;
+	margin-left: 5px !important;
+}
+
+.contenidoAsignaturas {
+	background: #ececec;
+	padding-left: 12px;
+}
+
+.list-subjects {
+	position: relative;
+	top: 0;
+	padding: 0;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#container-list-subject {
+	height: auto;
+	overflow-y: scroll;
+}
+
+.altura-list-subject {
+	height: 200px !important;
+}
+
+#container-list-subject  .list-subjects h3 {
+	font-size: 11px;
+}
+
+#container-list-subject  .list-subjects h4, #container-list-subject  .list-subjects p
+	{
+	font-size: 10px;
+}
+
+#btn-asignaturas {
+	height: 20px;
+	width: auto;
+	margin-top: 11px !important;
+}
+
+.btn-delete {
+	color: #a1151a !important;
+	cursor: pointer;
+}
+
+.dtp div.dtp-date, .dtp div.dtp-time, .dtp table.dtp-picker-days tr>td>a.selected,
+	.dtp>.dtp-content>.dtp-date-view>header.dtp-header, .dtp .dtp-actual-meridien a.selected,
+	.dtp .dtp-picker-time>a.dtp-select-hour.selected, .dtp .dtp-hand.on {
+	background: #a1151a !important;
+}
+
+.fieldsetOferta {
+	margin-bottom: 10px;
+	border: 1px solid white !important;
+	color: #000 !important;;
+}
+/************Perfil de usuario Style*****************/
+[slayer\:responsivo], [slayer-responsivo], [data-slayer-responsivo], [x-slayer-responsivo],
+	.slayer-responsivo, .x-slayer-responsivo {
+	margin: auto !important;
+	padding: 10px;
+	max-width: 100% !important;
+	max-height: 100% !important;
+}
+/************Perfil de usuario Style*****************/
+md-input-container
+
+
+.md-input-focused
+
+ 
+
+label
+
+
+:not
+
+ 
+
+(
+.md-no-float
+
+ 
+
+),
+md-input-container
+
+
+.md-input-has-placeholder
+
+ 
+
+label
+
+
+:not
+
+ 
+
+(
+.md-no-float
+
+ 
+
+),
+md-input-container
+
+
+.md-input-has-value
+
+ 
+
+label
+
+
+:not
+
+ 
+
+(
+.md-no-float
+
+ 
+
+){
+color
+
+
+:
+
+ 
+
+#000000
+
+
+;
+}
+md-input-container.md-default-theme:not (.md-input-invalid ).md-input-focused .md-input,
+	md-input-container:not (.md-input-invalid ).md-input-focused .md-input,
+	md-input-container.md-default-theme:not (.md-input-invalid ).md-input-resized .md-input,
+	md-input-container:not (.md-input-invalid ).md-input-resized .md-input
+	{
+	border-color: rgb(225, 225, 225);
+}
+/****************************Solicitud perfil*********************/
+#cjt {
+	width: 100% !important;
+	height: 150px !important;
+	display: block;
+}
+
+.fieldset-uaa {
+	border-color: #FAFAFA;
+}
+
+.table-container table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.table-container th, td {
+	text-align: left;
+	padding: 1px;
+}
+
+.table-container td .btn {
+	background: rgba(76, 175, 80, 0.0);
+	width: 100%;
+	height: 100%;
+}
+
+.table-container tr:nth-child(even) {
+	background-color: #d8cea3
+}
+
+.table-container th {
+	background-color: #8D191D;
+	font-size: 85%;
+	text-align: center;
+	color: white;
+}
+
+.table-container table td:hover {
+	background-color: #421213;
+	color: #ffffff;
+}
+
+.table-container {
+	overflow-x: auto;
+}
+
+.select-calendario {
+	margin-top: 9px;
+}
+/*******Menu fijo botones de opciones*******/
+.menu-fijo {
+	z-index: 9;
+	position: fixed;
+	top: 50px;
+	margin: 0 auto;
+	width: 90%;
+	background: #fff;
+}

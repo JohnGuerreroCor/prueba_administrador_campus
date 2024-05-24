@@ -1,0 +1,96 @@
+.fc-widget-content {
+	cursor:url(../img/cursor-add.png),auto !important;
+}
+
+.fc-content {
+	cursor: pointer;
+}
+
+#titleEvento {
+	text-align: center;
+	font-weight: normal;
+}
+
+.card-facultades {
+	display: inline-block;
+	min-width: 380px;
+    max-width: 380px;
+    text-align: left;
+	vertical-align: top;
+}
+
+.card-facultad-title{
+	min-height: 150px;
+}
+
+.alert-reserva{
+	padding: 10px;
+	background: #fff;
+	border: 3px solid #a1151a; 
+	color: #4c4c4c;
+	text-align: justify;
+	/*color: #edecec;
+	background: #a1151a;*/
+}
+
+.alerta-link{
+	color: #a1151a;
+}
+
+.receipt{
+	border:1px solid #cecece;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.receipt th, .receipt td {
+	font-size: small;
+    padding-bottom: 5px;
+    padding-left:5px;
+    padding-top: 5px;
+    text-align: left;
+}
+
+.reciept-color{
+	background:#f1f1f1;
+}
+
+.title-table-receipt{
+	background: #ffffff;
+	border: 1px solid #cecece;
+}
+.title-table-receipt td{
+	text-align: center;
+}
+
+#card-container{
+	width: 100%;
+    text-align: center;
+}
+
+.options-config{
+	width:20%;
+	background: #8d191d !important;
+}
+
+.fc-button{
+	background: #a52a2a;
+    border: none!important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #d8cea3;
+    text-shadow: none;
+}
+
+.fc-toolbar button:focus {
+    z-index: 5;
+    outline: none;
+}
+
+.fc-toolbar .fc-state-active, .fc-toolbar .ui-state-active {
+    background: #792020;
+}
+
+.fc-center h2 {
+    text-transform: capitalize;
+}

@@ -1,0 +1,135 @@
+SELECT
+	a.asi_codigo,
+	a.asi_nombre, 
+	a.asi_nombre_corto,
+	a.asi_nombre_impresion,
+	a.uaa_codigo, 
+	a.asi_publicar,
+	a.asi_estado, 
+	a.nuc_codigo, 
+	a.nbc_codigo 
+		FROM dbo.asignatura AS a 
+			INNER JOIN dbo.uaa AS u ON a.uaa_codigo = u.uaa_codigo
+			LEFT JOIN dbo.programa AS p ON u.uaa_codigo = p.pro_codigo 
+				WHERE 
+					u.uat_codigo = (SELECT TOP 1 wep_valor FROM web_parametro WHERE wep_nombre = 'EDUCACION_VIRTUAL_TIPO_UAA_EDUCACION_NO_FORMAL')
+
+
+
+
+
+insert into grupo (gru_nombre, gru_id) VALUES ('Administrador del módulo de programación académica no formal','LCMS_ADMIN_PROG_ACADEMICA')
+insert into grupo (gru_nombre, gru_id) VALUES ('Administrador facultad del módulo de programación académica no formal','LCMS_ADMIN_PROG_ACADEMICA_FACULTAD')
+
+
+
+
+
+UPDATE videoconferencias.credenciales_adobeconnect SET cac_numero_sesiones = 100
+
+
+select * from videoconferencias.credenciales_adobeconnect
+
+
+SELECT
+c.cur_codigo,
+c.cur_grupo,
+c.cur_cupo,
+c.cur_fecha_inicio,
+c.cur_semanas,
+up.uap_codigo,
+pe.per_codigo,
+pe.per_nombre,
+pe.per_apellido,
+a.asi_codigo,
+a.asi_nombre,
+a.asi_nombre_corto,
+s.sed_codigo,
+s.sed_nombre,
+ca.cal_codigo,
+ca.cal_nombre,
+ca.cal_fecha,
+per.per_nombre,
+per.per_codigo,
+per.per_fecha_inicio,
+per.per_fecha_fin,
+tc.tic_codigo,
+pa.pla_codigo,
+p.pro_codigo,
+p.pro_titulo_otorgado,
+u.uaa_codigo,
+u.uaa_nombre,
+u.uat_codigo
+FROM
+curso c
+INNER JOIN uaa_personal up ON c.uap_codigo = up.uap_codigo
+INNER JOIN persona pe ON up.per_codigo = pe.per_codigo
+INNER JOIN asignatura a ON c.asi_codigo = a.asi_codigo
+INNER JOIN sede s ON c.sed_codigo = s.sed_codigo
+INNER JOIN calendario ca ON c.cal_codigo = ca.cal_codigo
+INNER JOIN periodo per ON ca.per_codigo = per.per_codigo
+INNER JOIN tipo_curso tc ON c.tic_codigo = tc.tic_codigo 
+INNER JOIN plan_academico pa ON c.pla_codigo = pa.pla_codigo
+INNER JOIN programa p ON pa.pro_codigo = p.pro_codigo
+INNER JOIN uaa u ON p.uaa_codigo = u.uaa_codigo
+WHERE
+u.uat_codigo = 21
+
+select * from sede
+
+SELECT * FROM
+
+
+select * from tipo_curso
+
+
+
+
+SELECT
+	uat_codigo, 
+	uaa_nombre,
+	uaa_dependencia, 
+	uaa_nombre_corto,
+	uaa_nombre_impresion, 
+	uaa_email,
+	uaa_email_pqr,
+	uaa_pagina, 
+	mun_codigo,
+	uaa_telefono,
+	uaa_fax,
+	uaa_direccion,
+	sed_codigo,
+	uaa_centro_costos,
+	uaa_acronimo, 
+	uaa_estado,
+	uaa_propietario_codigo
+FROM
+	UAA
+	
+SELECT distinct p.per_codigo, p.per_nombre, p.per_apellido, p.per_genero, p.per_email,
+p.per_identificacion, ugeneral.uid, ugeneral.up, ugeneral.us, ugeneral.sys, u.uaa_codigo, uaa_nombre,
+ug.usg_grupo 
+FROM persona p 
+INNER JOIN usuario_general ugeneral ON ugeneral.up = p.per_codigo 
+INNER JOIN usuario_grupo ug ON ug.usg_usuario = ugeneral.uid 
+INNER JOIN uaa u ON ug.usg_uaa = u.uaa_codigo 
+WHERE ugeneral.us = 75199 AND 
+ug.usg_grupo in (SELECT wep_valor FROM web_parametro where wep_nombre = 'EDUCACION_VIRTUAL_PERFILES_SISTEMA') 
+AND ug.usg_estado = 1;
+
+SELECT u.usu_codigo, p.per_codigo, p.per_nombre, p.per_email, 
+p.per_apellido, p.per_identificacion, u.usu_estado FROM usuario u 
+INNER JOIN persona p ON p.per_codigo = u.usu_persona WHERE u.usu_login = 75199 
+					
+
+select * from usuario where usu_login like '%jankarlos%'
+
+SELECT wep_valor, wep_nombre FROM web_parametro where wep_nombre like '%EDUCACION_VIRTUAL_PERFILES_SISTEMA%'
+
+		    <connection-url>jdbc:jtds:sqlserver://172.16.1.85:1410/academia3000_lcms</connection-url>
+                    <driver-class>net.sourceforge.jtds.jdbc.Driver</driver-class>
+                    <driver>jtds-1.3.1.jar</driver>
+                    <security>
+                        <user-name>lcms_diaz</user-name>
+                        <password>1205.Jan_</password>
+                    </security>

@@ -1,0 +1,69 @@
+ 1=> seleciono el codigo de tipo uaa educacion no formal
+ 23 = select uat_codigo, uat_nombre from uaa_tipo where uat_nombre = 'EDUCACION NO FORMAL'
+ 
+ 2 => dbo.curso
+ --selecciono los registros de cursos donde el tipo de uaa de la asignatura del curso sea igual a 23 que es cursos no formal
+ select u.* from curso c inner join asignatura a on c.asi_codigo = a.asi_codigo inner join uaa u on a.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23
+ 
+ -- delete from matricula_curso_historico where cur_codigo  in (select c.cur_codigo from curso c inner join asignatura a on c.asi_codigo = a.asi_codigo inner join uaa u on a.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)  
+ -- delete from matricula_curso_actual where cur_codigo  in (select c.cur_codigo from curso c inner join asignatura a on c.asi_codigo = a.asi_codigo inner join uaa u on a.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)  
+ -- delete from curso where cur_codigo in (select c.cur_codigo from curso c inner join asignatura a on c.asi_codigo = a.asi_codigo inner join uaa u on a.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)
+
+ 3 => inscripciones.oferta_requisito
+ --truncate table inscripciones.oferta_requisito
+ 4 => inscripciones.oferta_informacion
+ --truncate table inscripciones.oferta_informacion
+ 
+ &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ ANDRES
+ _________________________________________________________________________--
+ 5=> admision
+ --truncate table admision_resultado_lcms 
+ ------------------------------------------------------------------------------------------------
+ 6=> inscripcionprograma
+ select i.inp_codigo from inscripcion_programa i inner join oferta_academica o on i.ofa_codigo = o.ofa_codigo inner join programa p on o.pro_codigo = p.pro_codigo inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23
+ --delete from inscripcion_programa where inp_codigo in (select i.inp_codigo from inscripcion_programa i inner join oferta_academica o on i.ofa_codigo = o.ofa_codigo inner join programa p on o.pro_codigo = p.pro_codigo inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23) 
+ 
+ &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ 
+ 7 => dbo.oferta_academica
+ --selecciono los registros de oferta academica donde el tipo de uaa del programa al que pertenecen es de tipo 23 que es no formal
+ select ofa_codigo from oferta_academica o inner join programa p on o.pro_codigo = p.pro_codigo inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23
+ --delete from oferta_academica where ofa_codigo in (select ofa_codigo from oferta_academica o inner join programa p on o.pro_codigo = p.pro_codigo inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)
+ 
+ 8 => dbo.plan_academico_asignatura
+ --selecciono los codigos del plan academico asignatura donde el tipo de uaa de la asignatura sea igual al codigo 23 el cual pertenece a educacion no formal
+ select p.paa_codigo from plan_academico_asignatura p inner join asignatura a on p.asi_codigo = a.asi_codigo inner join uaa u on a.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23
+ select * from plan_academico where pla_codigo in (select pa.pla_codigo from plan_academico pa inner join programa p on pa.pro_codigo = p.pro_codigo inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)
+ --delete from plan_academico_asignatura where paa_codigo in (select p.paa_codigo from plan_academico_asignatura p inner join asignatura a on p.asi_codigo = a.asi_codigo inner join uaa u on a.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)
+ --delete from plan_academico_asignatura where pla_codigo in (select pla_codigo from plan_academico where pla_codigo in (select pa.pla_codigo from plan_academico pa inner join programa p on pa.pro_codigo = p.pro_codigo inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23))
+ 
+ 9=> dbo.plan_estudiante
+ select ple_codigo from plan_estudiante where pla_codigo in (select pla_codigo from plan_academico pa inner join programa p on pa.pro_codigo = p.pro_codigo inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)
+--delete from plan_estudiante where ple_codigo in (select ple_codigo from plan_estudiante where pla_codigo in (select pla_codigo from plan_academico pa inner join programa p on pa.pro_codigo = p.pro_codigo inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)) 
+ 
+ 10 => dbo.plan_academico
+ --selecciono los codigos de los planes academicos de los cuales el tipo de uaa a la cual pertenece el programa es igual al codigo 23 el cual pertenece a la educación no formal
+ select * from plan_academico pa inner join programa p on pa.pro_codigo = p.pro_codigo inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23   
+--delete from plan_academico where pla_codigo in (select pa.pla_codigo from plan_academico pa inner join programa p on pa.pro_codigo = p.pro_codigo inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)
+ 
+ 11 => dbo.programa
+ --selecciono los codigos de los programas donde el tipo de uaa a la cual pertenecen los programas sea igual al codigo 23 el cual pertenece a la educación no formal
+ select * from programa p inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23
+ --delete from programa where pro_codigo in (select p.pro_codigo from programa p inner join uaa u on p.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)
+ 
+ 12 => dbo.asignatura
+ --selecciono los codigos de las asignaturas de las cuales el tipo de uaa a la que pertenezcan el codigo sea igual a 23 el cual peretenece a la educación no formal
+ select a.asi_codigo, a.asi_nombre, u.uaa_nombre, u.uat_codigo from asignatura a inner join uaa u on a.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23
+ --delete from asignatura where asi_codigo in (select a.asi_codigo from asignatura a inner join uaa u on a.uaa_codigo = u.uaa_codigo where u.uat_codigo = 23)
+ 
+ 13 => dbo.resolucion
+ --selecciono los codigos de las resoluciones de las cuales el tipo de uaa a la cual pertenezcan el codigo sea igual a 23 la cual pertenece a la educación no formal
+ select * from resolucion r inner join uaa u on r.res_dependencia = u.uaa_codigo where u.uat_codigo = 23
+ --delete from resolucion where res_codigo in (select r.res_codigo from resolucion r inner join uaa u on r.res_dependencia = u.uaa_codigo where u.uat_codigo = 23)
+ 
+ 14 => dbo.uaa
+ --select * from uaa_cargo where uac_uaa in (select uaa_codigo from uaa where uat_codigo = 23)
+ --delete from uaa_cargo where uac_codigo in (select uac_codigo from uaa_cargo where uac_uaa in (select uaa_codigo from uaa where uat_codigo = 23))
+ --delete from uaa where uat_codigo = 23
+ 

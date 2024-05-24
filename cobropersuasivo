@@ -1,0 +1,141 @@
+
+INSERT INTO web_parametro (wep_nombre, wep_valor, wep_descripcion) VALUES ('SILSA_TASA_INTERES_MORA_ACTUAL','1','PARAMETRO PARA INDICAR EL VALOR DE LA TASA DE INTERES EN MORA')
+
+--<ScriptOptions statementTerminator="GO"/>
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE PROCEDURE  [dbo].[CalcularInteresesFactura]
+        -- Add the parameters for the stored procedure here
+        @factura int
+
+    AS
+select 
+	 --Calcular el valor del capital
+		(select 
+			sum(ISNULL(fdc.fad_valor,0)) + sum(ISNULL(nc.ncd_valor,0))
+			from factura_detalle fdc 
+			left join notas_credito_debito nc on (fdc.fac_codigo = nc.fac_codigo and nc.ncd_tipo = 'D' and nc.con_codigo != 107 and nc.con_codigo != 744)
+			inner join concepto cc on (fdc.con_codigo = cc.con_codigo and cc.cot_codigo = 1 and cc.con_codigo != 107 and cc.con_codigo != 744)
+			where fdc.fac_codigo = @factura
+		) as capital,
+	
+	--Calcular los descuentos
+		(select 
+			sum(ISNULL(fdd.fad_valor,0)) + sum(ISNULL(nd.ncd_valor,0))
+			from factura_detalle fdd 
+			left join notas_credito_debito nd on (fdd.fac_codigo = nd.fac_codigo and nd.ncd_tipo = 'C' and nd.con_codigo != 107 and nd.con_codigo != 744)
+			inner join concepto cd on (fdd.con_codigo = cd.con_codigo and cd.cot_codigo = 2 and cd.con_codigo != 107 and cd.con_codigo != 744)
+			where fdd.fac_codigo = @factura
+		) as descuentos,
+	--Calcular el interes de mora
+		(select 
+			COALESCE(SUM(fdm.fad_valor),0) +
+			(select COALESCE(SUM(nm.ncd_valor),0) from notas_credito_debito nm  where (nm.fac_codigo = @factura and nm.con_codigo = 107))
+			from factura_detalle fdm
+			where fdm.fac_codigo = @factura and fdm.con_codigo = 107
+		) as mora,
+	--Calcular el interes de financiacion
+		(select 
+			COALESCE(SUM(fdf.fad_valor),0) + 
+			(select COALESCE(SUM(nf.ncd_valor),0) from notas_credito_debito nf where (nf.fac_codigo = @factura and nf.con_codigo = 744))
+			from factura_detalle fdf
+			where fdf.fac_codigo = @factura and fdf.con_codigo = 744
+		) as financiacion,
+	
+		DATEADD(day,1,ff.faf_fecha) as fecha_vencimiento,
+		(select wep_valor from web_parametro where wep_nombre like 'SILSA_TASA_INTERES_MORA_ACTUAL') as porcentaje_mora
+	from factura_detalle fd 
+	inner join factura_fecha ff on fd.fac_codigo = ff.fac_codigo
+	where fd.fac_codigo = @factura and con_codigo != 107 and con_codigo != 744
+	group by ff.faf_fecha
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+--<ScriptOptions statementTerminator="GO"/>
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE PROCEDURE [dbo].[Crear_notadc_refinanciacion]
+    @factura int,
+	@fechaPago varchar(20),
+	@totalInteres float,
+	@totalPagar float,
+	@usuario int,
+	@anioActual varchar(4),
+	@observacionNota varchar(350),
+	@observacionRefinanciacion text
+    AS 
+    SET NOCOUNT ON
+    DECLARE @consecutivo int  
+	DECLARE @convDate datetime
+	
+    --select top 1 @consecutivo = ncd_consecutivo+1 from notas_credito_debito where ncd_consecutivo like @anioActual+'%' order by ncd_consecutivo desc  
+    
+	SELECT 
+	@consecutivo = CASE 
+		WHEN (SELECT COUNT(*) FROM notas_credito_debito WHERE ncd_consecutivo like @anioActual+'%') = 0 THEN (@anioActual+'00001')
+
+		WHEN (SELECT COUNT(*) FROM notas_credito_debito WHERE ncd_consecutivo like @anioActual+'%') != 0 
+			THEN 
+				(SELECT TOP 1 (ncd_consecutivo+1) FROM notas_credito_debito WHERE ncd_consecutivo like @anioActual+'%' ORDER BY ncd_consecutivo DESC)  
+		END
+
+    
+    set @convDate = CONVERT(VARCHAR(23), @fechaPago, 110)
+    
+	INSERT INTO notas_credito_debito (
+		   fac_codigo,
+		   con_codigo, 
+		   ncd_fecha,
+		   ncd_usuario, 
+		   ncd_tipo, 
+		   ncd_valor, 
+		   ncd_observacion, 
+		   ncd_consecutivo)
+	   VALUES (
+		   @factura, 
+		   107, 
+		   getDate(),
+		   @usuario, 
+		   'D',
+		   @totalInteres, 
+		   @observacionNota, 
+		   @consecutivo)
+	
+	INSERT INTO abonos_refinanciaciones (
+		   fac_codigo,
+		   abr_fechacreacion,
+		   abr_fechaLimitePago, 
+		   abr_valor, 
+		   abr_observacion)
+	    VALUES (
+		   @factura, 
+		   getDate(),
+		   @convDate, 
+		   @totalPagar,
+		   @observacionRefinanciacion)
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
